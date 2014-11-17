@@ -10,7 +10,7 @@ var session = require('express-session');
 var RedisStore = require('connect-redis')(session);
 
 // Database stuff
-var dbURL = process.env.MONGOHQ_URL || "mongoDB://localhost/ServerKiller";
+var dbURL = process.env.MONGOHQ_URL || "mongodb://localhost";
 var db = mongoose.connect(dbURL, function(err) {
 	if(err) {
 		console.log("Failed to connect to database");

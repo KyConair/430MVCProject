@@ -4,6 +4,7 @@ $(document).ready(function() {
 
     function handleError(message) {
         $("#errorMessage").text(message);
+		console.log(message);
         $("#domoMessage").animate({width:'toggle'},350);
     }
     

@@ -75,7 +75,7 @@ AccountSchema.statics.generateHash = function(password, callback) {
 AccountSchema.statics.authenticate = function(username, password, callback) {
 	return AccountModel.findByUsername(username, function (err, doc) {
 		if(err) {
-			return callback(err):
+			return callback(err);
 		}
 		
 		// If you don't already have a 'doc' to have passed to us, you're definitely not authentic?
