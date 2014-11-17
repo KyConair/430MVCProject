@@ -5,7 +5,7 @@ var KilledServer = models.KilledServer;
 
 var graveyardPage = function(req, res) {
 	// If they're not logged in, boot 'em back to start page
-	if(!req.sessionaccount) {
+	if(!req.session.account) {
 		return res.redirect('/');
 	}
 	
@@ -21,7 +21,7 @@ var graveyardPage = function(req, res) {
 
 var makeGrave = function(req, res) {
 	// If they're not logged in, boot 'em back to start page
-	if(!req.sessionaccount) {
+	if(!req.session.account) {
 		return res.redirect('/');
 	}
 	
@@ -32,7 +32,7 @@ var makeGrave = function(req, res) {
 	var graveData = {
 		name: req.body.name,
 		packets: req.body.packets,
-		owner: req.session.account._id
+		killer: req.session.account._id
 	};
 	
 	var newGrave = new KilledServer.KilledServerModel(graveData);
@@ -42,7 +42,7 @@ var makeGrave = function(req, res) {
 			return res.status(400).json({ error:'An error occurred' });
 		}
 		
-		res.json({ redirect: '/graveyard' });
+		res.redirect('/graveyard');
 	});
 };
 

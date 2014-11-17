@@ -35,13 +35,13 @@ var KilledServerSchema = new mongoose.Schema({
 KilledServerSchema.methods.toAPI = function() {
 	return {
 		username: this.username,
-		packets: this.age
+		packets: this.packets
 	};
 };
 
 KilledServerSchema.statics.findByOwner = function(ownerId, callback) {
 	var search = {
-		owner: mongoose.Types.ObjectId(ownerId)
+		killer: mongoose.Types.ObjectId(ownerId)
 	};
 	
 	return KilledServerModel.find(search).select("name packets").exec(callback);

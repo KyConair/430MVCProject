@@ -26,7 +26,7 @@ var server;
 var port = process.env.PORT || process.env.NODE_PORT || 3000;
 
 var app = express();
-app.use('/assets', express.static(path.resolve(__dirname+'../client/'))); 
+app.use('/assets', express.static(path.resolve(__dirname+'/../client/'))); 
 app.use(compression());
 
 // Not 100% sure what is happening here, and definitely not why
@@ -35,7 +35,7 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(session({
 	store: new RedisStore(),
-	secret: 'This is my secret',
+	secret: 'Hallowed halls of hallows',
 	resave: true,
 	saveUninitialized: true
 }));

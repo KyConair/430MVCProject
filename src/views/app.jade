@@ -13,14 +13,24 @@ block body
       input#graveName(type="text", name="name", placeholder="Server Name")
       label(for="packets") Packets before death: 
       input#gravePackets(type="text", name="packets", placeholder="Server Packets")
-      a#makeGraveSubmit(class="makeGraveSubmit", href="#") Honor Server
+      input#submit(type="submit", name="submit")
   section#graves
-    if !graves
-        div.grave
-            h3 No graves yet
+    if graves==0
+        h3 No graves yet
     else
         each val in graves
-            div.grave #{val.name}
+            div.grave
+                |Here lies 
+                br
+                |#{val.name} 
+                br
+                |who served 
+                br
+                |#{val.packets} 
+                br
+                |packets before death. 
+                br
+                br
   #errorMessage
     h3
       span#errorMessage
