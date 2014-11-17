@@ -8,6 +8,7 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose'); 
 var session = require('express-session');
 var RedisStore = require('connect-redis')(session);
+var url = require('url');
 
 // Database stuff
 var dbURL = process.env.MONGOHQ_URL || "mongodb://localhost";
@@ -17,6 +18,18 @@ var db = mongoose.connect(dbURL, function(err) {
 		throw err;
 	}
 });
+var redisURL = {
+	hostname: 'localhost',
+	port:6379
+};
+
+// we don't have one for localhost so leave it undefined
+var redisPASS;
+
+if(process.env.REDISCLOUD_URL) {
+	redisURL = url.parse(process.env.REDISCLOUD_URL);
+	redisPASS = redisURL.auth.split(":")[1];
+};
 
 // Include our router
 var router = require('./router.js');
@@ -34,7 +47,11 @@ app.use(bodyParser.urlencoded({
 	extended: true
 }));
 app.use(session({
-	store: new RedisStore(),
+	store: new RedisStore({
+		host: redisURL.hostname,
+		port: redisURL.port,
+		pass: redisPASS
+	}),
 	secret: 'Hallowed halls of hallows',
 	resave: true,
 	saveUninitialized: true
