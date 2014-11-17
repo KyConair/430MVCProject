@@ -1,53 +1,47 @@
 var models = require('../models');
-
 var Account = models.Account;
 
 var loginPage = function(req, res) {
-    res.render('login');
+	res.render('login');
 };
 
 var signupPage = function(req, res) {
-    res.render('signup');
+	res.render('signup');
 };
 
 var logout = function(req, res) {
-    req.session.destroy();
-    res.redirect('/');
+	req.session.destroy();
+	res.redirect('/');
 };
 
 var login = function(req, res) {
-
-    var username = req.body.username;
-    var password = req.body.pass;
-
-    if(!username || !password) {
-        return res.status(400).json({error: "RAWR! All fields are required"});
-    }
-
-    Account.AccountModel.authenticate(username, password, function(err, account) {
-        if(err || !account) {
-            return res.status(401).json({error: "Wrong username or password"});
-        }
-        
-		req.session.account = account.toAPI();
+	var username = req.body.username;
+	var password = req.body.pass;
+	
+	if(!username || !password) {
+		return res.status(400).json({ error: "Empty username or password" });
+	}
+	
+	Account.AccountModel.authenticate(username, password, function(err, account) {
+		if(err | !account) {
+			return res.status(401).json({ error: "Incorrect username/password" });
+		}
 		
-        res.json({redirect: '/maker'});
-    });
-
+		req.session.account = account.toAPI();
+		res.json({ redirect: '/graveyard' });
+	});
 };
 
 var signup = function(req, res) {
-
-    if(!req.body.username || !req.body.pass || !req.body.pass2) {
-        return res.status(400).json({error: "RAWR! All fields are required"});
-    }
-
-    if(req.body.pass !== req.body.pass2) {
-        return res.status(400).json({error: "RAWR! Passwords do not match"});
-    }
+	if(!req.body.username || !req.body.pass || !req.body.pass2) {
+		return res.status(400).json({error: "All fields must be filled to create an account"});
+	}
+	
+	if(req.body.pass !== req.body.pass2) {
+		return res.status(400).json({error: "Provided passwords do not match"});
+	}
 	
 	Account.AccountModel.generateHash(req.body.pass, function(salt, hash) {
-
 		var accountData = {
 			username: req.body.username,
 			salt: salt,
@@ -59,12 +53,11 @@ var signup = function(req, res) {
 		newAccount.save(function(err) {
 			if(err) {
 				console.log(err);
-				return res.status(400).json({error:'An error occurred'}); 
+				return res.status(400).json({ error:'An error occurred' });
 			}
 			
 			req.session.account = newAccount.toAPI();
-            
-			res.json({redirect: '/maker'});
+			res.json({ redirect: '/graveyard' });
 		});
 	});
 };

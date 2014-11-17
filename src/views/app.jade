@@ -7,24 +7,22 @@ block body
       img#logo(src="/assets/img/face.png", alt="face logo")
     .navlink
       a(href="/logout") Log out
-  section#makeDomo
-    form#domoForm(class="domoForm", name="domoForm", action="/maker", method="POST")
+  section#makeGrave
+    form#graveForm(class="graveForm", name="graveForm", action="/graveyard", method="POST")
       label(for="name") Name: 
-      input#domoName(type="text", name="name", placeholder="Domo Name")
-      label(for="age") Age: 
-      input#domoAge(type="text", name="age", placeholder="Domo Age")
-      a#makeDomoSubmit(class="makeDomoSubmit", href="#") Make Domo
-  section#domos
-    if !domos
-        div.domo
-            h3 No Domos yet
+      input#graveName(type="text", name="name", placeholder="Server Name")
+      label(for="packets") Packets before death: 
+      input#gravePackets(type="text", name="packets", placeholder="Server Packets")
+      a#makeGraveSubmit(class="makeGraveSubmit", href="#") Honor Server
+  section#graves
+    if !graves
+        div.grave
+            h3 No graves yet
     else
-        each val in domos
-            div.domo #{val.name}
-  #domoMessage
-    img#speech(src="/assets/img/speech.png", alt="speech box")
+        each val in graves
+            div.grave #{val.name}
+  #errorMessage
     h3
       span#errorMessage
-    img#domo(src="assets/img/domo.png", alt="domo")
 block scripts
         script(src="/assets/maker.js")
